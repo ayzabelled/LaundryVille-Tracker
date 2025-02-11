@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import LaundryForm from './LaundryForm'; // Import the LaundryForm component
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 interface Customer {
   id: number;
@@ -94,30 +96,30 @@ const AddCustomerForm: React.FC = () => {
         {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
         {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>} {/* Display success message */}
 
-        <div>
-          <label>
+        <div className='flex flex-row gap-2 justify-center p-2'>
+          <label className='font-bold text-base'>
             <input
               type="radio"
               value="new"
               checked={isNewCustomer}
               onChange={() => setIsNewCustomer(true)}
             />
-            Add New Customer
+            Add
           </label>
-          <label>
+          <label className='font-bold text-base'>
             <input
               type="radio"
               value="existing"
               checked={!isNewCustomer}
               onChange={() => setIsNewCustomer(false)}
             />
-            Select Existing Customer
+            Select Existing
           </label>
         </div>
         {isNewCustomer ? (
           <>
             <label htmlFor="name">Name:</label>
-            <input
+            <Input
               type="text"
               id="name"
               value={name}
@@ -126,16 +128,19 @@ const AddCustomerForm: React.FC = () => {
             />
 
             <label htmlFor="number">Number:</label>
-            <input
+            <Input
               type="text"
               id="number"
               value={number}
               onChange={(e) => setNumber(e.target.value)}
               required
             />
+              <div className='pt-4 flex justify-center'>
+          <Button type="submit">{isNewCustomer ? 'Add Customer' : 'Select Customer'}</Button>
+        </div>
           </>
         ) : (
-          <select onChange={(e) => handleCustomerSelect(Number(e.target.value))} value={selectedCustomerId || ''}>
+          <select className='flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm' onChange={(e) => handleCustomerSelect(Number(e.target.value))} value={selectedCustomerId || ''}>
             <option value="" disabled>Select an existing customer</option>
             {customers.map((customer) => (
               <option key={customer.id} value={customer.id}>
@@ -144,8 +149,6 @@ const AddCustomerForm: React.FC = () => {
             ))}
           </select>
         )}
-
-        <button type="submit">{isNewCustomer ? 'Add Customer' : 'Select Customer'}</button>
       </form>
 
       {showLaundryForm && selectedCustomerId && (

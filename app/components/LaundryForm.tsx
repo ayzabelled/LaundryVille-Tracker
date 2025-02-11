@@ -1,5 +1,7 @@
 // components/LaundryForm.tsx
 "use client"
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { useState, useEffect } from 'react';
 
 interface LaundryFormProps {
@@ -27,8 +29,8 @@ const LaundryForm: React.FC<LaundryFormProps> = ({ customerId }) => {
           amountOfLaundry: amount,
           extras,
           totalPrice,
-          createdAt, 
-          received, 
+          createdAt,
+          received,
         }),
       });
 
@@ -54,8 +56,8 @@ const LaundryForm: React.FC<LaundryFormProps> = ({ customerId }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="amount">Amount of Laundry:</label>
-      <input
+      <label htmlFor="amount" className='pt-4'>Amount of Laundry:</label>
+      <Input
         type="number"
         id="amount"
         value={amount}
@@ -65,17 +67,17 @@ const LaundryForm: React.FC<LaundryFormProps> = ({ customerId }) => {
       />
 
       <label htmlFor="detergentExtras">Extra Detergents:</label>
-      <input
+      <Input
         type="number"
         id="detergentExtras"
         value={detergentExtras}
         onChange={(e) => setDetergentExtras(Number(e.target.value))} // Ensure it's a number
         min="0" // Prevent negative detergent extras
       />
-
-      <p>Total Price: ₱{totalPrice.toFixed(2)}</p>
-
-      <button type="submit">Submit</button>
+      <p>Total Price: <span className='flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm'>₱{totalPrice.toFixed(2)}</span></p>
+      <div className='flex justify-center p-4'>
+        <Button type="submit">Submit</Button>
+      </div>
     </form>
   );
 };
