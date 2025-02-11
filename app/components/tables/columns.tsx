@@ -7,7 +7,6 @@ export type Customer = {
   id: string;
   name: string;
   number: string;
-  received: boolean; // Added received property
 }
 
 
@@ -42,25 +41,9 @@ export type CustomersList = {
 }
 
 export const listColumn: ColumnDef<CustomersList>[] = [
-   {
-    accessorKey: "name",
-    header: "Name",
-  },
-  {
-    accessorKey: "number",
-    header: "Number",
-  },
-  {
-    accessorKey: "amount_of_laundry",
-    header: "Amount of Laundry",
-  },
-  {
-    accessorKey: "total_price",
-    header: "Total Price",
-  },
   {
     accessorKey: "received",
-    header: "Received",
+    header: "✅",
     cell: ({ row }) => {
 
         const handleCheckboxChange = (checked: boolean) => { 
@@ -76,4 +59,20 @@ export const listColumn: ColumnDef<CustomersList>[] = [
         );
     },
 },
+   {
+    accessorKey: "name",
+    header: "Name",
+  },
+  {
+    accessorKey: "number",
+    header: "Number",
+  },
+  {
+    accessorKey: "amount_of_laundry",
+    header: "🧺",
+  },
+  {
+    accessorKey: "total_price",
+    header: "Total",
+  },
 ]
