@@ -7,6 +7,7 @@ export type Customer = {
   id: string;
   name: string;
   number: string;
+  received: boolean;
 }
 
 
