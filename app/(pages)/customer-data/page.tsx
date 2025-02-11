@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 import { DataTable } from '../../components/tables/data-table';
 import { customerColumns } from '../../components/tables/columns';
-
+import Image
+ from 'next/image';
 export default function CustomerData() {
   const [data, setData] = useState([]);
   const handleOpenLaundryItems = (customerId: string) => {
@@ -24,9 +25,16 @@ export default function CustomerData() {
   }, []);
 
   return (
-    <div>
-      <h1>Customer Data</h1>
-      <div className="container mx-auto py-10">
+    <div className='p-4 w-screen'>
+      <header className='flex justify-center'>
+        <Image src="/logo.png"
+          width={200}
+          height={200}
+          className="flex justify-center"
+          alt="LaundryVille LaundryStation Logo" />
+      </header>
+      <h1 className='text-2xl font-bold text-[#0066CC] pt-2'>Customer Data</h1>
+      <div>
       <DataTable columns={customerColumns} data={data} />
       </div>
     </div>
