@@ -43,7 +43,7 @@ const ReportsDashboard: React.FC = () => {
     }
   };
 
-  const [selectedReportType, setSelectedReportType] = useState<string | null>('daily');
+  const [selectedReportType, setSelectedReportType] = useState<string | null>('');
 
 
   const handleReportSelection = async (reportType: string) => {
@@ -72,14 +72,15 @@ const ReportsDashboard: React.FC = () => {
   return (
     <div>
       <DropdownMenu>
-        <DropdownMenuTrigger>Earnings Reports</DropdownMenuTrigger>
+        <DropdownMenuTrigger className='text-base border pl-4 pr-4 border-2 rounded-lg shadow-md border-[#0066CC] font-bold text-[#0066CC]'>FILTER</DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuLabel>Filter</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => handleReportSelection('daily')}>Daily</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleReportSelection('weekly')}>Weekly</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleReportSelection('monthly')}>Monthly</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleReportSelection('annually')}>Annually</DropdownMenuItem>
+          <DropdownMenuItem className="text-sm flex justify-center" onClick={() => handleReportSelection('daily')}>Daily</DropdownMenuItem>
+          <DropdownMenuSeparator/>
+          <DropdownMenuItem className="text-sm flex justify-center" onClick={() => handleReportSelection('weekly')}>Weekly</DropdownMenuItem>
+          <DropdownMenuSeparator/>
+          <DropdownMenuItem className="text-sm flex justify-center" onClick={() => handleReportSelection('monthly')}>Monthly</DropdownMenuItem>
+          <DropdownMenuSeparator/>
+          <DropdownMenuItem className="text-sm flex justify-center" onClick={() => handleReportSelection('annually')}>Annually</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       {loading && (
@@ -95,13 +96,13 @@ const ReportsDashboard: React.FC = () => {
           </svg>
         </div>
       )}
-      {selectedReportType === 'daily' && !loading && <p>Daily: ₱{typeof dailyEarnings === 'number' ? dailyEarnings.toFixed(2) : '0.00'}</p>}
+      {selectedReportType === 'daily' && !loading && <p className='pt-4 flex justify-center text-3xl'>Daily: ₱{typeof dailyEarnings === 'number' ? dailyEarnings.toFixed(2) : '0.00'}</p>}
 
-      {selectedReportType === 'weekly' && !loading && <p>Weekly: ₱{typeof weeklyEarnings === 'number' ? weeklyEarnings.toFixed(2) : '0.00'}</p>}
+      {selectedReportType === 'weekly' && !loading && <p className= 'pt-4 flex justify-center text-3xl'>Weekly: ₱{typeof weeklyEarnings === 'number' ? weeklyEarnings.toFixed(2) : '0.00'}</p>}
 
-      {selectedReportType === 'monthly' && !loading && <p>Monthly: ₱{typeof monthlyEarnings === 'number' ? monthlyEarnings.toFixed(2) : '0.00'}</p>}
+      {selectedReportType === 'monthly' && !loading && <p className='pt-4 flex justify-center text-3xl'>Monthly: ₱{typeof monthlyEarnings === 'number' ? monthlyEarnings.toFixed(2) : '0.00'}</p>}
 
-      {selectedReportType === 'annually' && !loading && <p>Annually: ₱{typeof annualEarnings === 'number' ? annualEarnings.toFixed(2) : '0.00'}</p>}
+      {selectedReportType === 'annually' && !loading && <p className='pt-4 flex justify-center text-3xl'>Annually: ₱{typeof annualEarnings === 'number' ? annualEarnings.toFixed(2) : '0.00'}</p>}
 
     </div>
   );

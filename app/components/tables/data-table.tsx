@@ -36,14 +36,14 @@ export function DataTable<TData extends { id: string; received: boolean }, TValu
   });
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-md border flex-justify-center max-h-3/4 overflow-y-auto">
       <Table>
-        <TableHeader>
+        <TableHeader className="bg-[#1d78d2]">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead className="text-white font-bold" key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -68,15 +68,6 @@ export function DataTable<TData extends { id: string; received: boolean }, TValu
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
-                {showCheckbox && ( // Conditionally render the checkbox
-                  <TableCell>
-                    <input
-                      type="checkbox"
-                      checked={row.original.received}
-                      onChange={() => onCheckboxChange?.(row.original.id)} // Call the onCheckboxChange function if provided
-                    />
-                  </TableCell>
-                )}
               </TableRow>
             ))
           ) : (
