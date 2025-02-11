@@ -50,7 +50,7 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl font-bold">Login</CardTitle>
           <CardDescription>
             Enter your username below to login to your account
           </CardDescription>
@@ -59,7 +59,7 @@ export function LoginForm({
           <form onSubmit={handleSubmit}> {/* Add onSubmit handler */}
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="username" className='font-bold'>Username</Label>
                 <Input
                   id="username"
                   type="username"
@@ -71,7 +71,7 @@ export function LoginForm({
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password" className='font-bold'>Password</Label>
                 </div>
                 <Input
                   id="password"
@@ -81,7 +81,7 @@ export function LoginForm({
                   onChange={(e) => setPassword(e.target.value)} // Update password state
                 />
               </div>
-              {errorMessage && <p className="text-red-500">{errorMessage}</p>} {/* Display error message */}
+              {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>} {/* Display error message */}
               <Button type="submit" className="w-full">
                 Login
               </Button>
