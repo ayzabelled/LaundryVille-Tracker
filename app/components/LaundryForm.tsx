@@ -1,4 +1,3 @@
-// components/LaundryForm.tsx
 "use client"
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,14 +8,16 @@ interface LaundryFormProps {
 }
 
 const LaundryForm: React.FC<LaundryFormProps> = ({ customerId }) => {
-  const [amount, setAmount] = useState(0); // Default value set to 0
+  const [amount, setAmount] = useState(1); // Default value set to 1
   const [detergentExtras, setDetergentExtras] = useState(0); // Number of extra detergents
   const [totalPrice, setTotalPrice] = useState(0);
   const [received] = useState(false); // Automatically set to false
   const [createdAt, setCreatedAt] = useState(new Date()); // Capture the current date
+  const [loading, setLoading] = useState<boolean>(false); // Loading state
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true when submitting
 
     const extras = { detergentExtras }; // Store the number of extra detergents
 
@@ -45,6 +46,8 @@ const LaundryForm: React.FC<LaundryFormProps> = ({ customerId }) => {
       setTotalPrice(0);
     } catch (error) {
       console.error('Error:', error);
+    } finally {
+      setLoading(false); // Set loading to false when submission ends
     }
   };
 
@@ -55,30 +58,45 @@ const LaundryForm: React.FC<LaundryFormProps> = ({ customerId }) => {
   }, [amount, detergentExtras]);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="amount" className='pt-4'>Amount of Laundry:</label>
-      <Input
-        type="number"
-        id="amount"
-        value={amount}
-        onChange={(e) => setAmount(Number(e.target.value))} // Ensure it's a number
-        required
-        min="0" // Prevent negative values
-      />
+    <>
+      {loading && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+          <svg
+            className="animate-spin size-10 text-blue-500"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v2a6 6 0 100 12v2a8 8 0 01-8-8z" />
+          </svg>
+        </div>
+      )}
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="amount" className='pt-4'>Amount of Laundry:</label>
+        <Input
+          type="number"
+          id="amount"
+          value={amount}
+          onChange={(e) => setAmount(Number(e.target.value))} // Ensure it's a number
+          required
+          min="1" // Prevent <1 value
+        />
 
-      <label htmlFor="detergentExtras">Extra Detergents:</label>
-      <Input
-        type="number"
-        id="detergentExtras"
-        value={detergentExtras}
-        onChange={(e) => setDetergentExtras(Number(e.target.value))} // Ensure it's a number
-        min="0" // Prevent negative detergent extras
-      />
-      <p>Total Price: <span className='flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm'>₱{totalPrice.toFixed(2)}</span></p>
-      <div className='flex justify-center p-4'>
-        <Button type="submit">Submit</Button>
-      </div>
-    </form>
+        <label htmlFor="detergentExtras">Extra Detergents:</label>
+        <Input
+          type="number"
+          id="detergentExtras"
+          value={detergentExtras}
+          onChange={(e) => setDetergentExtras(Number(e.target.value))} // Ensure it's a number
+          min="0" // Prevent negative detergent extras
+        />
+        <p>Total Price: <span className='flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm'>₱{totalPrice.toFixed(2)}</span></p>
+        <div className='flex justify-center p-4'>
+          <Button type="submit">Submit</Button>
+        </div>
+      </form>
+    </>
   );
 };
 
