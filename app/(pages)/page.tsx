@@ -54,7 +54,7 @@ export default function Dashboard() {
   }, []);
   
   return (
-    <div className='p-4 h-screen w-screen'>
+    <div className='p-4'>
       {loading && (
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
           <svg
