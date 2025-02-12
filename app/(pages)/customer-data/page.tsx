@@ -7,6 +7,9 @@ import Image
  from 'next/image';
 export default function CustomerData() {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState<boolean>(false); // Loading state
+  const [error, setError] = useState<string | null>(null); // Error state
+
   const handleOpenLaundryItems = (customerId: string) => {
 
     // Logic to open laundry items for the customer
@@ -17,15 +20,36 @@ export default function CustomerData() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
+      try {
       const response = await fetch('/api/customers');
       const result = await response.json();
       setData(result);
-    };
-    fetchData();
-  }, []);
+    } catch (error) {
+      setError((error as Error).message); // Set the error message to display
+    } finally {
+      setLoading(false); // Set loading to false when fetching ends
+    }
+  };
+  fetchData();
+}, []);
+  
 
   return (
     <div className='p-4 w-screen'>
+      {loading && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+          <svg
+            className="animate-spin size-10 text-blue-500"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v2a6 6 0 100 12v2a8 8 0 01-8-8z" />
+          </svg>
+        </div>
+      )}
       <header className='flex justify-center'>
         <Image src="/logo.png"
           width={200}
