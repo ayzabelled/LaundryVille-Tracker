@@ -2,10 +2,16 @@
 
 import {
   ColumnDef,
+  SortingState,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+
+import * as React from "react"
+import { Button } from "@/components/ui/button"
 
 import {
   Table,
@@ -14,28 +20,31 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"; // Corrected import statement
-
+} from "@/components/ui/table"; 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  onCheckboxChange?: (id: string) => void; // Make the onCheckboxChange prop optional
-  showCheckbox?: boolean; // New prop to control checkbox visibility
 }
 
 export function DataTable<TData extends { id: string; received: boolean }, TValue>({
   columns,
   data,
-  onCheckboxChange, // Destructure the onCheckboxChange prop
-  showCheckbox = false, // Default to false if not provided
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>([])
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
   });
 
   return (
+    <div>
     <div className="rounded-md border flex-justify-center max-h-3/4 overflow-y-auto">
       <Table>
         <TableHeader className="bg-[#1d78d2]">
@@ -80,5 +89,24 @@ export function DataTable<TData extends { id: string; received: boolean }, TValu
         </TableBody>
       </Table>
     </div>
+    <div className="flex items-center justify-end space-x-2 py-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button>
+      </div>
+      </div>
   );
 }
