@@ -78,7 +78,8 @@ const LaundryForm: React.FC<LaundryFormProps> = ({ customerId }) => {
           type="number"
           id="amount"
           value={amount}
-          onChange={(e) => setAmount(Number(e.target.value))} // Ensure it's a number
+          className='[&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden'
+          onChange={(e) => setAmount(Number(e.target.value))} 
           required
           min="1" // Prevent <1 value
         />
@@ -88,7 +89,8 @@ const LaundryForm: React.FC<LaundryFormProps> = ({ customerId }) => {
           type="number"
           id="detergentExtras"
           value={detergentExtras}
-          onChange={(e) => setDetergentExtras(Number(e.target.value))} // Ensure it's a number
+          className='[&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden'
+          onChange={(e) => setDetergentExtras(Number(e.target.value))} 
           min="0" // Prevent negative detergent extras
         />
         <p>Total Price: <span className='flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm'>₱{totalPrice.toFixed(2)}</span></p>
