@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import LaundryForm from './LaundryForm'; // Import the LaundryForm component
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input'; // Corrected import statement
+import { Button } from '@/components/ui/button'; // Corrected import statement
 
 interface Customer {
   id: number;
@@ -14,14 +14,15 @@ const AddCustomerForm: React.FC = () => {
   const [customers, setCustomers] = useState<Customer[]>([]); // State to hold the list of existing customers
   const [selectedCustomerId, setSelectedCustomerId] = useState<number | null>(null); // State to hold the selected customer ID
   const [showLaundryForm, setShowLaundryForm] = useState(false); // State to control visibility of LaundryForm
-
   const [isNewCustomer, setIsNewCustomer] = useState(true); // State to track if adding a new customer
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false); // Loading state
 
   const fetchCustomers = async () => {
+    setLoading(true); // Set loading to true when fetching starts
     try {
       const response = await fetch('/api/customers');
       if (!response.ok) {
@@ -31,6 +32,8 @@ const AddCustomerForm: React.FC = () => {
       setCustomers(data); // Set the fetched customers to state
     } catch (error) {
       console.error('Error fetching customers:', error);
+    } finally {
+      setLoading(false); // Set loading to false when fetching ends
     }
   };
 
@@ -45,6 +48,7 @@ const AddCustomerForm: React.FC = () => {
         return;
       }
 
+      setLoading(true); // Set loading to true when creating a new customer
       try {
         const response = await fetch('/api/customers', {
           method: 'POST',
@@ -69,6 +73,8 @@ const AddCustomerForm: React.FC = () => {
       } catch (error) {
         console.error('Error creating customer:', error);
         setError((error as Error).message); // Set the error message to display
+      } finally {
+        setLoading(false); // Set loading to false when creation ends
       }
     } else {
       if (selectedCustomerId) {
@@ -92,6 +98,19 @@ const AddCustomerForm: React.FC = () => {
 
   return (
     <>
+      {loading && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+          <svg
+            className="animate-spin size-10 text-blue-500"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v2a6 6 0 100 12v2a8 8 0 01-8-8z" />
+          </svg>
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
         {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
         {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>} {/* Display success message */}
@@ -135,9 +154,9 @@ const AddCustomerForm: React.FC = () => {
               onChange={(e) => setNumber(e.target.value)}
               required
             />
-              <div className='pt-4 flex justify-center'>
-          <Button type="submit">{isNewCustomer ? 'Add Customer' : 'Select Customer'}</Button>
-        </div>
+            <div className='pt-4 flex justify-center'>
+              <Button type="submit">Add Customer</Button>
+            </div>
           </>
         ) : (
           <select className='flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm' onChange={(e) => handleCustomerSelect(Number(e.target.value))} value={selectedCustomerId || ''}>
@@ -151,7 +170,8 @@ const AddCustomerForm: React.FC = () => {
         )}
       </form>
 
-      {showLaundryForm && selectedCustomerId && (
+      {showLaundryForm && selectedCustomerId && !isNewCustomer && (
+
         <LaundryForm customerId={selectedCustomerId} /> // Render LaundryForm with selected customer ID
       )}
     </>
