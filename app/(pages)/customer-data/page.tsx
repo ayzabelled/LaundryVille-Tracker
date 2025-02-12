@@ -36,7 +36,7 @@ export default function CustomerData() {
   
 
   return (
-    <div className='p-4 w-screen'>
+    <div className='p-4'>
       {loading && (
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
           <svg
