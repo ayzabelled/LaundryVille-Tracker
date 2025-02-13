@@ -8,15 +8,7 @@ import Image
 export default function CustomerData() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState<boolean>(false); // Loading state
-  const [error, setError] = useState<string | null>(null); // Error state
-
-  const handleOpenLaundryItems = (customerId: string) => {
-
-    // Logic to open laundry items for the customer
-    console.log(`Opening laundry items for customer ID: ${customerId}`);
-    // You can navigate to another page or open a modal here
-  };
-
+  const [, setError] = useState<string | null>(null); // Error state
 
   useEffect(() => {
     const fetchData = async () => {
