@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { DataTable } from '../../components/tables/data-table';
-import { customerColumns } from '../../components/tables/columns';
+import { laundryHistory } from '../../components/tables/columns';
 import Image
  from 'next/image';
-export default function CustomerData() {
+
+export default function LaundryHistory() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState<boolean>(false); // Loading state
   const [, setError] = useState<string | null>(null); // Error state
@@ -14,7 +15,10 @@ export default function CustomerData() {
     const fetchData = async () => {
       setLoading(true);
       try {
-      const response = await fetch('/api/customers');
+      const urlParams = new URLSearchParams(window.location.search);
+      const customerId = urlParams.get('customerId'); // Get customerId from query parameters
+      const response = await fetch(`/api/laundry?customerId=${customerId}`); // Include customerId in the fetch request
+
       const result = await response.json();
       setData(result);
     } catch (error) {
@@ -49,9 +53,9 @@ export default function CustomerData() {
           className="flex justify-center"
           alt="LaundryVille LaundryStation Logo" />
       </header>
-      <h1 className='text-2xl font-bold text-[#0066CC] pt-2'>Customer Data</h1>
+      <h1 className='text-2xl font-bold text-[#0066CC] pt-2'>Laundry History</h1>
       <div>
-      <DataTable columns={customerColumns} data={data} />
+      <DataTable columns={laundryHistory} data={data} />
       </div>
     </div>
   );
