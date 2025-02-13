@@ -2,7 +2,7 @@ import { Pool } from 'pg';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
-export async function GET(request) {
+export async function GET() {
   try {
     const result = await pool.query('SELECT * FROM customers');
     return new Response(JSON.stringify(result.rows), { status: 200 });
@@ -33,7 +33,6 @@ export async function DELETE(request) {
       return new Response(JSON.stringify({ error: 'customer_id is required' }), { status: 400 });
     }
 
-
     await pool.query('DELETE FROM laundry_items WHERE customer_id = $1', [customer_id]);
 
     const result = await pool.query('DELETE FROM customers WHERE id = $1 RETURNING *', [customer_id]); // Use customer_id here!
@@ -54,4 +53,4 @@ export async function DELETE(request) {
 }
 
 // If `OPTIONS` is not defined, Next.js will automatically implement `OPTIONS` and set the appropriate Response `Allow` header depending on the other methods defined in the Route Handler.
-export async function OPTIONS(request) {}
+export async function OPTIONS() {}

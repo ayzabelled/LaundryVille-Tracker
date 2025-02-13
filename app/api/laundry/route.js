@@ -39,9 +39,7 @@ export async function POST(request) {
   }
 }
 
-
-
-export async function GET(request) {
+export async function GET() {
   try {
     const result = await pool.query(
       `SELECT li.*, c.name, c.number 
@@ -56,5 +54,31 @@ export async function GET(request) {
   } catch (error) {
     console.error('Error fetching laundry data:', error);
     return new Response(JSON.stringify({ error: 'Failed to fetch laundry data', details: error.message }), { status: 500 });
+  }
+}
+
+export async function DELETE(request) {
+  try {
+    const { id } = await request.json();
+    if (!id) {
+      return new Response(JSON.stringify({ error: 'ID is required' }), { status: 400 }); // More accurate error message
+    }
+
+    const result = await pool.query('DELETE FROM laundry_items WHERE id = $1', [id]);
+
+    if (result.rowCount > 0) { // Check if any rows were deleted
+       return new Response(null, { status: 204 }); // 204 No Content is standard for DELETE
+    } else {
+      return new Response(JSON.stringify({error: 'Laundry Item not found'}), {status: 404})
+    }
+
+
+
+  } catch (error) {
+    console.error('Error deleting laundry history:', error);
+    return new Response(
+      JSON.stringify({ error: 'Failed to delete laundry history', details: error.message }),
+      { status: 500 }
+    );
   }
 }
