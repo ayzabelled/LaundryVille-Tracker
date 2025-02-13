@@ -9,7 +9,7 @@ import Image from 'next/image';
 export default function Dashboard() {
   const [data, setData] = useState([]); // State to hold customer data
   const [loading, setLoading] = useState<boolean>(false); // Loading state
-  const [error, setError] = useState<string | null>(null); // Error state
+  const [, setError] = useState<string | null>(null); // Error state
 
   const handleCheckboxChange = async (id: string) => {
     try {
@@ -24,8 +24,6 @@ export default function Dashboard() {
       if (!response.ok) {
         throw new Error('Failed to update received status');
       }
-  
-      const updatedCustomer = await response.json();
       // Refresh the page after successful update
       window.location.reload();
 
