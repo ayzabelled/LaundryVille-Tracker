@@ -12,7 +12,7 @@ const LaundryForm: React.FC<LaundryFormProps> = ({ customerId }) => {
   const [detergentExtras, setDetergentExtras] = useState(0); // Number of extra detergents
   const [totalPrice, setTotalPrice] = useState(0);
   const [received] = useState(false); // Automatically set to false
-  const [createdAt, setCreatedAt] = useState(new Date()); // Capture the current date
+  const [createdAt] = useState(new Date()); // Capture the current date
   const [loading, setLoading] = useState<boolean>(false); // Loading state
 
   const handleSubmit = async (e: React.FormEvent) => {

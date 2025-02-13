@@ -55,4 +55,4 @@ const reportType = url.searchParams.get('reportType'); // Get the report type fr
   }
 }
 
-export async function OPTIONS(request) {}
+export async function OPTIONS() {}

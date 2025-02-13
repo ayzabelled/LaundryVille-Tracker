@@ -24,12 +24,15 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  onCheckboxChange?: (id: string) => Promise<void>;
 }
+
 
 export function DataTable<TData extends { id: string; received: boolean }, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+
   const [sorting, setSorting] = React.useState<SortingState>([])
   const table = useReactTable({
     data,
