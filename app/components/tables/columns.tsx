@@ -74,7 +74,9 @@ export const customerColumns: ColumnDef<Customer>[] = [
             <DropdownMenuItem
               className="text-xs"
               onClick={() =>
-                router.push(`/laundry-history?customerId=${payment.name}`)
+                router.push(`/laundry-history?customerId=${payment.id}`)
+
+                //make this only get the laundry_items of the specific customer id
               }
             >
               View Laundry History
@@ -287,7 +289,6 @@ export const laundryHistory: ColumnDef<CustomersList>[] = [
     id: "actions",
     cell: ({ row }) => {
       const history = row.original;
-      // eslint-disable-next-line react-hooks/rules-of-hooks
 
       return (
         <DropdownMenu>

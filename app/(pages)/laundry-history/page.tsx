@@ -15,7 +15,10 @@ export default function LaundryHistory() {
     const fetchData = async () => {
       setLoading(true);
       try {
-      const response = await fetch('/api/laundry');
+      const urlParams = new URLSearchParams(window.location.search);
+      const customerId = urlParams.get('customerId'); // Get customerId from query parameters
+      const response = await fetch(`/api/laundry?customerId=${customerId}`); // Include customerId in the fetch request
+
       const result = await response.json();
       setData(result);
     } catch (error) {
