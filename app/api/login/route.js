@@ -20,4 +20,4 @@ const result = await pool.query('SELECT * FROM admin WHERE username = $1 AND pas
   }
 }
 
-export async function OPTIONS(request) { }
+export async function OPTIONS() { }

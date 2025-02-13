@@ -1,11 +1,9 @@
 "use client"
 
 import AddCustomerForm from '@/app/components/AddCustomerForm';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 export default function Home() {
-  const router = useRouter();
 
   return (
     <div className='p-4'>
