@@ -88,6 +88,8 @@ const AddCustomerForm: React.FC = () => {
   const handleCustomerSelect = (customerId: number) => {
     setSelectedCustomerId(customerId);
     setShowLaundryForm(true); // Show the LaundryForm when a customer is selected
+    setError(null); // Clear any previous errors
+    setSuccessMessage(null); // Clear any previous success message
   };
 
   useEffect(() => {
