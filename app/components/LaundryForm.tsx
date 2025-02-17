@@ -47,7 +47,7 @@ const LaundryForm: React.FC<LaundryFormProps> = ({ customerId }) => {
       console.log('Laundry item created!');
       setAmount(1); // Reset to default value
       setDetergentExtras(0);
-      setTotalPrice(130);
+      setTotalPrice(140);
       setSuccessMessage("Laundry entry created successfully!");
     } catch (error) {
       console.error('Error:', error);
@@ -57,7 +57,7 @@ const LaundryForm: React.FC<LaundryFormProps> = ({ customerId }) => {
   };
 
   useEffect(() => {
-    let price = amount * 130; // Base price set to 130 PHP
+    let price = amount * 140; // Base price set to 130 PHP
     price += detergentExtras * 15; // Add cost of extra detergents
     setTotalPrice(price);
   }, [amount, detergentExtras]);
